@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}CarpoolCampus — share the ride to campus{% endblock %}
+
+{% block content %}
+<section class="text-center py-10">
+  <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
+    Share the ride to campus
+  </h1>
+  <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
+    CarpoolCampus matches students and staff at the same organization by class timetable
+    and neighbourhood, so you can split the commute with people going your way.
+  </p>
+</section>
+
+<section aria-labelledby="how-it-works" class="mt-6">
+  <h2 id="how-it-works" class="text-xl font-semibold text-slate-900 mb-4">How it works</h2>
+  <ol class="grid gap-4 sm:grid-cols-3">
+    {% for step in steps %}
+      <li class="rounded-lg bg-white border border-slate-200 p-5">
+        <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold">{{ forloop.counter }}</span>
+        <h3 class="mt-3 font-medium text-slate-900">{{ step.title }}</h3>
+        <p class="mt-1 text-sm text-slate-600">{{ step.body }}</p>
+      </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endblock %}

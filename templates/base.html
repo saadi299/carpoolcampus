@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}CarpoolCampus{% endblock %}</title>
+  {# Tailwind Play CDN keeps development setup-free. Swap for a compiled build before production. #}
+  <script src="https://cdn.tailwindcss.com"></script>
+  {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800 flex flex-col">
+  <header class="bg-white border-b border-slate-200">
+    <nav class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+      <a href="{% url 'core:home' %}" class="font-semibold text-lg text-emerald-700">CarpoolCampus</a>
+      <div class="flex items-center gap-4 text-sm">
+        {% block nav %}{% endblock %}
+        {% if user.is_authenticated %}
+          <span class="text-slate-500">{{ user.get_username }}</span>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+
+  {% if messages %}
+    <div class="max-w-5xl mx-auto w-full px-4 mt-4 space-y-2">
+      {% for message in messages %}
+        <div class="rounded-md border px-4 py-2 text-sm {% if message.tags == 'error' %}border-red-200 bg-red-50 text-red-800{% else %}border-emerald-200 bg-emerald-50 text-emerald-800{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <main class="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white">
+    <div class="max-w-5xl mx-auto px-4 py-4 text-xs text-slate-500">
+      CarpoolCampus — shared rides for campus communities across Canada.
+    </div>
+  </footer>
+</body>
+</html>

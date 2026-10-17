@@ -1,0 +1,29 @@
+[project]
+name = "carpoolcampus"
+version = "0.1.0"
+description = "Carpool matching for Canadian universities and organizations"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py"]
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["."]
+omit = ["*/migrations/*", "*/tests/*", "*/.venv/*", "*/venv/*", "manage.py", "config/asgi.py", "config/wsgi.py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["*/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "DJ", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+"*/tests/*" = ["S101", "S105", "S106"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "venv"]

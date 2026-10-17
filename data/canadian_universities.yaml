@@ -1,0 +1,203 @@
+# Reference data for seeding organizations and campuses.
+#
+# Real, public information: organization names, campus names, campus street
+# addresses, postal codes and student/staff email domains.
+# Coordinates are approximate (good to a few hundred metres) and are only used
+# for distance estimates.
+#
+# `nearby_fsas` lists real Forward Sortation Areas (first 3 characters of a
+# Canadian postal code) around each campus. The seed command uses them to give
+# fake demo students believable home postal codes.
+#
+# To add an organization: copy a block, fill it in, run `python manage.py seed`.
+
+organizations:
+  - code: ontariotech
+    name: Ontario Tech University
+    province: ON
+    email_domains: [ontariotechu.net, ontariotechu.ca]
+    course_code_style: "{SUBJ} {NUM}U"   # e.g. SOFE 3980U
+    subjects: [SOFE, ENGR, BUSI, CSCI, MATH, PHY, HLSC, NURS]
+    campuses:
+      - name: North Oshawa
+        address: 2000 Simcoe St N, Oshawa, ON
+        postal_code: L1G 0C5
+        lat: 43.9455
+        lng: -78.8964
+        nearby_fsas: [L1G, L1H, L1J, L1K, L1L, L1N, L1R, L1M, L1T, L1S, M1B, M1C]
+      - name: Downtown Oshawa
+        address: 61 Charles St, Oshawa, ON
+        postal_code: L1H 4X8
+        lat: 43.8975
+        lng: -78.8620
+        nearby_fsas: [L1H, L1G, L1J, L1K, L1N, L1R]
+
+  - code: uoft
+    name: University of Toronto
+    province: ON
+    email_domains: [mail.utoronto.ca, utoronto.ca]
+    course_code_style: "{SUBJ}{NUM}H1"   # e.g. CSC209H1
+    subjects: [CSC, MAT, ECO, PSY, BIO, CHM, STA, ENG]
+    campuses:
+      - name: St. George
+        address: 27 King's College Cir, Toronto, ON
+        postal_code: M5S 1A1
+        lat: 43.6629
+        lng: -79.3957
+        nearby_fsas: [M5S, M5T, M5R, M6G, M6J, M4Y, M6H, M5A]
+      - name: Scarborough (UTSC)
+        address: 1265 Military Trail, Toronto, ON
+        postal_code: M1C 1A4
+        lat: 43.7845
+        lng: -79.1868
+        nearby_fsas: [M1C, M1B, M1E, M1G, M1H, M1W, M1V, L1V]
+      - name: Mississauga (UTM)
+        address: 3359 Mississauga Rd, Mississauga, ON
+        postal_code: L5L 1C6
+        lat: 43.5483
+        lng: -79.6627
+        nearby_fsas: [L5L, L5M, L5N, L5K, L5B, L5C, L6Y]
+
+  - code: yorku
+    name: York University
+    province: ON
+    email_domains: [my.yorku.ca, yorku.ca]
+    course_code_style: "{SUBJ} {NUM}"     # e.g. EECS 2030
+    subjects: [EECS, ADMS, MATH, PSYC, ECON, ITEC, BIOL, HUMA]
+    campuses:
+      - name: Keele
+        address: 4700 Keele St, Toronto, ON
+        postal_code: M3J 1P3
+        lat: 43.7735
+        lng: -79.5019
+        nearby_fsas: [M3J, M3N, M3H, M3K, L4J, L4K, M9L, M9M]
+      - name: Glendon
+        address: 2275 Bayview Ave, Toronto, ON
+        postal_code: M4N 3M6
+        lat: 43.7280
+        lng: -79.3780
+        nearby_fsas: [M4N, M4P, M4G, M2N, M4R, M4S]
+
+  - code: tmu
+    name: Toronto Metropolitan University
+    province: ON
+    email_domains: [torontomu.ca]
+    course_code_style: "{SUBJ} {NUM}"     # e.g. CPS 209
+    subjects: [CPS, ECN, BUS, MTH, PSY, ELE, ACC, ITM]
+    campuses:
+      - name: Downtown Toronto
+        address: 350 Victoria St, Toronto, ON
+        postal_code: M5B 2K3
+        lat: 43.6577
+        lng: -79.3788
+        nearby_fsas: [M5B, M5A, M4Y, M5V, M4M, M6K, M5E, M4X]
+
+  - code: uwaterloo
+    name: University of Waterloo
+    province: ON
+    email_domains: [uwaterloo.ca]
+    course_code_style: "{SUBJ} {NUM}"     # e.g. CS 246
+    subjects: [CS, MATH, STAT, ECE, ME, AFM, ECON, PSYCH]
+    campuses:
+      - name: Main Campus
+        address: 200 University Ave W, Waterloo, ON
+        postal_code: N2L 3G1
+        lat: 43.4723
+        lng: -80.5449
+        nearby_fsas: [N2L, N2J, N2K, N2T, N2V, N2G, N2H, N2M]
+
+  - code: mcmaster
+    name: McMaster University
+    province: ON
+    email_domains: [mcmaster.ca]
+    course_code_style: "{SUBJ} {NUM}"     # e.g. COMPSCI 2C03
+    subjects: [COMPSCI, MATH, ENGINEER, COMMERCE, PSYCH, BIOLOGY, HTHSCI, ECON]
+    campuses:
+      - name: Main Campus
+        address: 1280 Main St W, Hamilton, ON
+        postal_code: L8S 4L8
+        lat: 43.2609
+        lng: -79.9192
+        nearby_fsas: [L8S, L8P, L8R, L9H, L9C, L8N, L9G, L8M]
+
+  - code: western
+    name: Western University
+    province: ON
+    email_domains: [uwo.ca]
+    course_code_style: "{SUBJ} {NUM}"     # e.g. CS 2210
+    subjects: [CS, MATH, ECON, BUS, PSYCH, BIOL, CHEM, SE]
+    campuses:
+      - name: Main Campus
+        address: 1151 Richmond St, London, ON
+        postal_code: N6A 3K7
+        lat: 43.0096
+        lng: -81.2737
+        nearby_fsas: [N6A, N6G, N6H, N5X, N5Y, N6B, N6C, N6K]
+
+  - code: queensu
+    name: Queen's University
+    province: ON
+    email_domains: [queensu.ca]
+    course_code_style: "{SUBJ} {NUM}"     # e.g. CISC 124
+    subjects: [CISC, MATH, ECON, COMM, PSYC, APSC, BIOL, CHEM]
+    campuses:
+      - name: Main Campus
+        address: 99 University Ave, Kingston, ON
+        postal_code: K7L 3N6
+        lat: 44.2253
+        lng: -76.4951
+        nearby_fsas: [K7L, K7M, K7K, K7P, K7N]
+
+  - code: uottawa
+    name: University of Ottawa
+    province: ON
+    email_domains: [uottawa.ca]
+    course_code_style: "{SUBJ}{NUM}"      # e.g. CSI2110
+    subjects: [CSI, SEG, MAT, ECO, ADM, PSY, BIO, CHM]
+    campuses:
+      - name: Main Campus
+        address: 75 Laurier Ave E, Ottawa, ON
+        postal_code: K1N 6N5
+        lat: 45.4231
+        lng: -75.6831
+        nearby_fsas: [K1N, K1S, K1R, K2P, K1Y, K1K, K1L, K1M]
+
+  - code: ubc
+    name: University of British Columbia
+    province: BC
+    email_domains: [student.ubc.ca, ubc.ca]
+    course_code_style: "{SUBJ} {NUM}"     # e.g. CPSC 210
+    subjects: [CPSC, MATH, ECON, COMM, PSYC, BIOL, CHEM, APSC]
+    campuses:
+      - name: Vancouver
+        address: 2329 West Mall, Vancouver, BC
+        postal_code: V6T 1Z4
+        lat: 49.2606
+        lng: -123.2460
+        nearby_fsas: [V6T, V6R, V6S, V6K, V6J, V6N, V5Z, V6M]
+      - name: Okanagan
+        address: 3333 University Way, Kelowna, BC
+        postal_code: V1V 1V7
+        lat: 49.9394
+        lng: -119.3948
+        nearby_fsas: [V1V, V1X, V1Y, V1W, V1P]
+
+  - code: mcgill
+    name: McGill University
+    province: QC
+    email_domains: [mail.mcgill.ca, mcgill.ca]
+    course_code_style: "{SUBJ} {NUM}"     # e.g. COMP 250
+    subjects: [COMP, MATH, ECON, MGCR, PSYC, BIOL, CHEM, ECSE]
+    campuses:
+      - name: Downtown
+        address: 845 Sherbrooke St W, Montreal, QC
+        postal_code: H3A 0G4
+        lat: 45.5048
+        lng: -73.5772
+        nearby_fsas: [H3A, H2X, H3G, H2W, H2T, H3H, H2L, H3B]
+      - name: Macdonald
+        address: 21111 Lakeshore Rd, Sainte-Anne-de-Bellevue, QC
+        postal_code: H9X 3V9
+        lat: 45.4072
+        lng: -73.9426
+        nearby_fsas: [H9X, H9W, H9H, H9B]
