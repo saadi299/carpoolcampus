@@ -3,15 +3,15 @@
 The plan for CarpoolCampus, built one small, working feature at a time.
 Each item is one pull request with code, tests, demo data and documentation.
 
-**Progress: 1 of 80 items complete.**
+**Progress: 2 of 80 items complete.**
 
 Legend: ✅ done · 🔨 in this pull request · ⬜ planned · ⏭️ skipped
 
 ## Phase 1: Foundation
 
 - ✅ **1.1** Project setup and home page
-- 🔨 **1.2** About page with privacy summary
-- ⬜ **1.3** Friendly 404 and 500 error pages
+- ✅ **1.2** About page with privacy summary
+- 🔨 **1.3** Friendly 404 and 500 error pages
 - ⬜ **1.4** Site-wide settings in templates
 - ⬜ **1.5** Mobile navigation menu
 
