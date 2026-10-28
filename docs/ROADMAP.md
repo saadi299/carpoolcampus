@@ -10,7 +10,7 @@ Legend: ✅ done · 🔨 in this pull request · ⬜ planned · ⏭️ skipped
 ## Phase 1: Foundation
 
 - ✅ **1.1** Project setup and home page
-- ⬜ **1.2** About page with privacy summary
+- 🔨 **1.2** About page with privacy summary
 - ⬜ **1.3** Friendly 404 and 500 error pages
 - ⬜ **1.4** Site-wide settings in templates
 - ⬜ **1.5** Mobile navigation menu
@@ -117,4 +117,3 @@ Once every item above is done, the project moves to daily quality work:
 fixing bugs, closing security findings, adding missing tests, improving
 performance and readability. Progress is tracked in
 [QUALITY.md](QUALITY.md).
-
