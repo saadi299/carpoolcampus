@@ -40,4 +40,5 @@ are fictional.
 
 - [Home page](features/home.md)
 - [About & Privacy Summary](features/about.md)
+- [Error pages](features/error_pages.md)
 - [For organization admins](for-org-admins.md)
