@@ -13,6 +13,7 @@
     <nav class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
       <a href="{% url 'core:home' %}" class="font-semibold text-lg text-emerald-700">CarpoolCampus</a>
       <div class="flex items-center gap-4 text-sm">
+        <a href="{% url 'core:about' %}" class="text-slate-600 hover:text-emerald-700 transition-colors">About</a>
         {% block nav %}{% endblock %}
         {% if user.is_authenticated %}
           <span class="text-slate-500">{{ user.get_username }}</span>

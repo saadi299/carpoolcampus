@@ -21,6 +21,11 @@ def home(request: HttpRequest) -> HttpResponse:
     return render(request, "core/home.html", {"steps": HOW_IT_WORKS})
 
 
+def about(request: HttpRequest) -> HttpResponse:
+    """Explains who CarpoolCampus is for, matching logic, and privacy commitments."""
+    return render(request, "core/about.html")
+
+
 def health(request: HttpRequest) -> JsonResponse:
     """Lightweight check used by CI and hosting platforms."""
     return JsonResponse({"status": "ok"})
