@@ -6,6 +6,7 @@ your own university or organization.
 ## What you can do today
 
 - Visit the home page and read how CarpoolCampus works.
+- Visit the About page to learn who CarpoolCampus is for, how matching works, and how your privacy is protected.
 
 More features arrive regularly. See [the roadmap](../ROADMAP.md) for what is
 coming next, and the [feature guides](features/) for step-by-step instructions.
@@ -38,4 +39,5 @@ are fictional.
 ## Guides
 
 - [Home page](features/home.md)
+- [About & Privacy Summary](features/about.md)
 - [For organization admins](for-org-admins.md)
