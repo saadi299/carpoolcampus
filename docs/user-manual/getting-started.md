@@ -40,5 +40,6 @@ are fictional.
 
 - [Home page](features/home.md)
 - [About & Privacy Summary](features/about.md)
+- [Site settings & footer](features/site_settings.md)
 - [Error pages](features/error_pages.md)
 - [For organization admins](for-org-admins.md)
