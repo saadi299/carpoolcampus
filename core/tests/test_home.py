@@ -24,6 +24,16 @@ def test_home_page_has_about_nav_link(client):
 
 
 @pytest.mark.django_db
+def test_home_page_includes_mobile_nav_elements(client):
+    response = client.get(reverse("core:home"))
+    assert response.status_code == 200
+    assert b'id="mobile-menu-button"' in response.content
+    assert b'aria-controls="mobile-menu"' in response.content
+    assert b'aria-expanded="false"' in response.content
+    assert b'src="/static/js/nav.js"' in response.content or b"js/nav.js" in response.content
+
+
+@pytest.mark.django_db
 def test_about_page_loads(client):
     response = client.get(reverse("core:about"))
     assert response.status_code == 200
