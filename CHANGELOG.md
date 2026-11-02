@@ -2,6 +2,10 @@
 
 All notable changes to this project. Newest first.
 
+## 2026-11
+
+- 2026-11-02 · feat(organizations): add organization model and admin interface (ROADMAP 2.1)
+
 ## 2026-10
 
 - 2026-10-31 · feat(core): add responsive mobile navigation menu (ROADMAP 1.5)
