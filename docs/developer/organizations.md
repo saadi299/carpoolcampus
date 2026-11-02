@@ -1,7 +1,6 @@
 # Organizations (multi-organization design)
 
-> Status: planned — built in Phase 2 and Phase 3. This page is the design
-> the implementation follows. Sections are marked ✅ as they are built.
+> Status: in progress — Phase 2 & Phase 3. Sections are marked ✅ as they are built.
 
 ## Goals
 
@@ -12,7 +11,7 @@
 ## Models
 
 ```
-Organization
+Organization ✅
   code            slug, unique         e.g. "uoft"
   name            str                  e.g. "University of Toronto"
   province        2-letter code

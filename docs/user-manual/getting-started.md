@@ -42,4 +42,5 @@ are fictional.
 - [About & Privacy Summary](features/about.md)
 - [Site settings & footer](features/site_settings.md)
 - [Error pages](features/error_pages.md)
+- [Organization Management](features/organization_model.md)
 - [For organization admins](for-org-admins.md)
