@@ -45,3 +45,13 @@ def test_organization_ordering_by_name() -> None:
         "University of British Columbia",
         "University of Waterloo",
     ]
+
+
+@pytest.mark.django_db
+def test_organization_get_province_display() -> None:
+    org = Organization.objects.create(
+        code="uwaterloo",
+        name="University of Waterloo",
+        province="ON",
+    )
+    assert org.get_province_display() == "Ontario"
