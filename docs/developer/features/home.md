@@ -5,6 +5,7 @@ Roadmap: 1.1
 ## What it does
 
 - Public home page at `/` explaining CarpoolCampus in three steps.
+- About page at `/about/` explaining safety, privacy, and how CarpoolCampus works.
 - Health check at `/health/` returning `{"status": "ok"}` for CI and hosting.
 - `python manage.py seed` command with a demo admin account.
 
@@ -13,12 +14,13 @@ Roadmap: 1.1
 | File | Role |
 |---|---|
 | `config/settings.py` | settings, read from environment variables |
-| `core/views.py` | `home` and `health` views |
+| `core/views.py` | `home`, `about`, and `health` views |
 | `core/urls.py` | routes for the core app (namespace `core`) |
 | `templates/base.html` | shared layout: header, messages, footer, Tailwind |
 | `core/templates/core/home.html` | home page content |
+| `core/templates/core/about.html` | about page content |
 | `core/management/commands/seed.py` | demo data, ordered `SEED_STEPS` |
-| `core/tests/` | tests for home, health and seed |
+| `core/tests/` | tests for home, about, health, and seed |
 
 ## Design decisions
 
@@ -31,6 +33,7 @@ Roadmap: 1.1
 
 ## Tests
 
-- Home page returns 200 and shows the three steps.
+- Home page returns 200, shows the three steps, and includes navigation links.
+- About page returns 200 and renders `core/about.html`.
 - Health endpoint returns `{"status": "ok"}`.
 - Seed creates the admin once and refuses when `DEBUG` is off.
