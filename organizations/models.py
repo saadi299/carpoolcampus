@@ -1,4 +1,13 @@
+from django.core.validators import RegexValidator
 from django.db import models
+
+# Domain validator: standard domain name syntax
+# (labels separated by dots, 2-63 chars per label, TLD >= 2 letters)
+domain_validator = RegexValidator(
+    regex=r"^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$",
+    message="Enter a valid domain name (e.g., uwaterloo.ca).",
+    code="invalid_domain",
+)
 
 
 class Organization(models.Model):
@@ -50,3 +59,47 @@ class Organization(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class EmailDomain(models.Model):
+    """An email domain associated with an organization for domain-based member verification."""
+
+    organization = models.ForeignKey(
+        Organization,
+        on_delete=models.CASCADE,
+        related_name="email_domains",
+        help_text="The organization this domain belongs to.",
+    )
+    domain = models.CharField(
+        max_length=253,
+        unique=True,
+        validators=[domain_validator],
+        help_text="Email domain name stored in lower case (e.g., uwaterloo.ca).",
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Timestamp when this domain was registered.",
+    )
+
+    class Meta:
+        ordering = ["domain"]
+        verbose_name = "Email Domain"
+        verbose_name_plural = "Email Domains"
+
+    def __str__(self) -> str:
+        return self.domain
+
+    def save(self, *args, **kwargs) -> None:
+        if self.domain:
+            self.domain = self.domain.strip().lower()
+        super().save(*args, **kwargs)
+
+    def clean(self) -> None:
+        super().clean()
+        if self.domain:
+            self.domain = self.domain.strip().lower()
+
+    def clean_fields(self, exclude=None) -> None:
+        if self.domain:
+            self.domain = self.domain.strip().lower()
+        super().clean_fields(exclude=exclude)
