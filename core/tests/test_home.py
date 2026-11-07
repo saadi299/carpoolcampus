@@ -41,6 +41,14 @@ def test_about_page_loads(client):
     assert b"postal code" in response.content.lower()
 
 
+@pytest.mark.django_db
+def test_about_view_renders_correct_template(client):
+    response = client.get(reverse("core:about"))
+    assert response.status_code == 200
+    template_names = [t.name for t in response.templates]
+    assert "core/about.html" in template_names
+
+
 def test_health_endpoint(client):
     response = client.get(reverse("core:health"))
     assert response.status_code == 200
