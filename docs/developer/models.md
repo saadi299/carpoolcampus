@@ -7,6 +7,7 @@ this page.
 |---|---|---|---|
 | django.contrib.auth | User | login account | 1.1 |
 | organizations | Organization | Educational institution or organization for member carpooling | 2.1 |
+| organizations | EmailDomain | Email domain associated with an organization for member domain matching | 2.2 |
 
 Planned models are described in [organizations.md](organizations.md) and in the
 roadmap.
