@@ -3,7 +3,7 @@
 The plan for CarpoolCampus, built one small, working feature at a time.
 Each item is one pull request with code, tests, demo data and documentation.
 
-**Progress: 5 of 80 items complete.**
+**Progress: 6 of 80 items complete.**
 
 Legend: ✅ done · 🔨 in this pull request · ⬜ planned · ⏭️ skipped
 
@@ -17,8 +17,8 @@ Legend: ✅ done · 🔨 in this pull request · ⬜ planned · ⏭️ skipped
 
 ## Phase 2: Organizations
 
-- 🔨 **2.1** Organization model and admin
-- ⬜ **2.2** Email domains and organization lookup
+- ✅ **2.1** Organization model and admin
+- 🔨 **2.2** Email domains and organization lookup
 - ⬜ **2.3** Campus model with postal code validation
 - ⬜ **2.4** Seed real Canadian universities
 - ⬜ **2.5** Supported organizations page

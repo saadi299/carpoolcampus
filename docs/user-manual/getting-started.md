@@ -43,4 +43,5 @@ are fictional.
 - [Site settings & footer](features/site_settings.md)
 - [Error pages](features/error_pages.md)
 - [Organization Management](features/organization_model.md)
+- [Email Domain Lookup](features/email_domain_lookup.md)
 - [For organization admins](for-org-admins.md)
