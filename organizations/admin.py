@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from organizations.models import EmailDomain, Organization
+from organizations.models import Campus, EmailDomain, Organization
 
 
 class EmailDomainInline(admin.TabularInline):
@@ -8,6 +8,14 @@ class EmailDomainInline(admin.TabularInline):
 
     model = EmailDomain
     extra = 1
+
+
+class CampusInline(admin.TabularInline):
+    """Inline administration for campuses associated with an organization."""
+
+    model = Campus
+    extra = 1
+    fields = ("name", "address", "postal_code", "lat", "lng")
 
 
 @admin.register(Organization)
@@ -18,7 +26,7 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_filter = ("province", "is_active")
     search_fields = ("name", "code")
     prepopulated_fields = {"code": ("name",)}
-    inlines = [EmailDomainInline]
+    inlines = [EmailDomainInline, CampusInline]
 
 
 @admin.register(EmailDomain)
@@ -28,4 +36,14 @@ class EmailDomainAdmin(admin.ModelAdmin):
     list_display = ("domain", "organization", "created_at")
     list_filter = ("organization__is_active",)
     search_fields = ("domain", "organization__name", "organization__code")
+    select_related = ("organization",)
+
+
+@admin.register(Campus)
+class CampusAdmin(admin.ModelAdmin):
+    """Admin configuration for standalone Campus management."""
+
+    list_display = ("name", "organization", "address", "postal_code", "lat", "lng")
+    list_filter = ("organization",)
+    search_fields = ("name", "address", "postal_code", "organization__name", "organization__code")
     select_related = ("organization",)

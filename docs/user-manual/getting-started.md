@@ -44,4 +44,5 @@ are fictional.
 - [Error pages](features/error_pages.md)
 - [Organization Management](features/organization_model.md)
 - [Email Domain Lookup](features/email_domain_lookup.md)
+- [Campus Management](features/campus_management.md)
 - [For organization admins](for-org-admins.md)
