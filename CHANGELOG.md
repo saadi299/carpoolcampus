@@ -4,6 +4,7 @@ All notable changes to this project. Newest first.
 
 ## 2026-11
 
+- 2026-11-08 · test(organizations): add edge case tests for organization_for_email
 - 2026-11-07 · feat(organizations): add email domain model and lookup service (ROADMAP 2.2)
 - 2026-11-06 · test(core): assert about view uses core/about.html template
 - 2026-11-05 · test(organizations): add test for organization province display name
