@@ -24,6 +24,15 @@ class TestOrganizationForEmail:
         result = organization_for_email("STUDENT@UWATERLOO.CA")
         assert result == org
 
+    def test_whitespace_handling(self):
+        org = Organization.objects.create(
+            code="ubc", name="University of British Columbia", province="BC"
+        )
+        EmailDomain.objects.create(organization=org, domain="ubc.ca")
+
+        result = organization_for_email("  student@ubc.ca  ")
+        assert result == org
+
     def test_unknown_domain(self):
         org = Organization.objects.create(code="mcgill", name="McGill University", province="QC")
         EmailDomain.objects.create(organization=org, domain="mcgill.ca")
@@ -51,7 +60,10 @@ class TestOrganizationForEmail:
 
     def test_invalid_emails(self):
         assert organization_for_email("") is None
+        assert organization_for_email("   ") is None
         assert organization_for_email("invalid-email") is None
         assert organization_for_email("too@many@ats.com") is None
         assert organization_for_email("user@") is None
+        assert organization_for_email("@utoronto.ca") is None
+        assert organization_for_email("@") is None
         assert organization_for_email(None) is None
