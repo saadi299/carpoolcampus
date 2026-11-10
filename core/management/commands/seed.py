@@ -9,11 +9,13 @@ It refuses to run when DEBUG is off, so demo accounts never reach production.
 Every feature that needs demo data adds a step to SEED_STEPS below.
 """
 
+from decimal import Decimal
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand, CommandError
 
-from organizations.models import EmailDomain, Organization
+from organizations.models import Campus, EmailDomain, Organization
 
 DEMO_ADMIN_USERNAME = "admin"
 DEMO_ADMIN_PASSWORD = "carpool-admin-demo"  # noqa: S105 - development-only demo account
@@ -79,10 +81,68 @@ def seed_organizations(stdout) -> None:
             stdout.write(f"    domain {email_domain.domain} ({d_status})")
 
 
+def seed_campuses(stdout) -> None:
+    """Seed sample campuses for organizations."""
+    sample_campuses = [
+        {
+            "org_code": "utoronto",
+            "name": "St. George Campus",
+            "address": "27 King's College Circle",
+            "postal_code": "M5S 1A1",
+            "lat": Decimal("43.662892"),
+            "lng": Decimal("-79.395656"),
+        },
+        {
+            "org_code": "uwaterloo",
+            "name": "Main Campus",
+            "address": "200 University Ave W",
+            "postal_code": "N2L 3G1",
+            "lat": Decimal("43.472285"),
+            "lng": Decimal("-80.544858"),
+        },
+        {
+            "org_code": "ubc",
+            "name": "Point Grey Campus",
+            "address": "2329 West Mall",
+            "postal_code": "V6T 1Z4",
+            "lat": Decimal("49.260605"),
+            "lng": Decimal("-123.245994"),
+        },
+        {
+            "org_code": "mcgill",
+            "name": "Downtown Campus",
+            "address": "845 Sherbrooke St W",
+            "postal_code": "H3A 0G4",
+            "lat": Decimal("45.504786"),
+            "lng": Decimal("-73.577151"),
+        },
+    ]
+
+    for c_data in sample_campuses:
+        try:
+            org = Organization.objects.get(code=c_data["org_code"])
+        except Organization.DoesNotExist:
+            continue
+
+        campus, created = Campus.objects.get_or_create(
+            organization=org,
+            name=c_data["name"],
+            defaults={
+                "address": c_data["address"],
+                "postal_code": c_data["postal_code"],
+                "lat": c_data["lat"],
+                "lng": c_data["lng"],
+            },
+        )
+        status = "created" if created else "exists"
+        stdout.write(f"  campus {campus.name} for {org.code} ({status})")
+
+
 # Ordered list of (label, function). Later features append their own steps.
 SEED_STEPS = [
     ("Demo admin account", seed_admin),
     ("Sample organizations and email domains", seed_organizations),
+    ("Sample organization campuses", seed_campuses),
 ]
 
 
