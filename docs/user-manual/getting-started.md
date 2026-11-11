@@ -45,4 +45,5 @@ are fictional.
 - [Organization Management](features/organization_model.md)
 - [Email Domain Lookup](features/email_domain_lookup.md)
 - [Campus Management](features/campus_model.md)
+- [Canadian University Seed Data](features/seed_canadian_universities.md)
 - [For organization admins](for-org-admins.md)

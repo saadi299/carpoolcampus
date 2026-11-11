@@ -19,8 +19,8 @@ Legend: ✅ done · 🔨 in this pull request · ⬜ planned · ⏭️ skipped
 
 - ✅ **2.1** Organization model and admin
 - ✅ **2.2** Email domains and organization lookup
-- 🔨 **2.3** Campus model with postal code validation
-- ⬜ **2.4** Seed real Canadian universities
+- ⬜ **2.3** Campus model with postal code validation
+- 🔨 **2.4** Seed real Canadian universities
 - ⬜ **2.5** Supported organizations page
 - ⬜ **2.6** Organization detail page
 - ⬜ **2.7** Search and province filter for organizations
