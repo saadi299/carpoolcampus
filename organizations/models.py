@@ -3,6 +3,8 @@ import re
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from core.validators import normalize_canadian_postal_code, validate_canadian_postal_code
+
 DOMAIN_LABEL_REGEX = re.compile(r"^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$", re.IGNORECASE)
 
 
@@ -115,4 +117,67 @@ class EmailDomain(models.Model):
         if self.domain:
             self.domain = self.domain.strip().lower()
             validate_domain(self.domain)
+        super().clean()
+
+
+class Campus(models.Model):
+    """A physical campus or location belonging to an organization."""
+
+    organization = models.ForeignKey(
+        Organization,
+        on_delete=models.CASCADE,
+        related_name="campuses",
+        help_text="Organization that owns this campus.",
+    )
+    name = models.CharField(
+        max_length=150,
+        help_text="Name of the campus (e.g. Main Campus, Keele Campus).",
+    )
+    address = models.CharField(
+        max_length=255,
+        help_text="Street address of the campus.",
+    )
+    postal_code = models.CharField(
+        max_length=7,
+        validators=[validate_canadian_postal_code],
+        help_text="Canadian postal code in A1A 1A1 format.",
+    )
+    lat = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        help_text="Latitude coordinate of the campus location.",
+    )
+    lng = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        help_text="Longitude coordinate of the campus location.",
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Timestamp when this campus was created.",
+    )
+
+    class Meta:
+        ordering = ["organization", "name"]
+        verbose_name = "Campus"
+        verbose_name_plural = "Campuses"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["organization", "name"],
+                name="unique_campus_per_organization",
+            )
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.name} - {self.organization.name}"
+
+    def save(self, *args, **kwargs) -> None:
+        if self.postal_code:
+            self.postal_code = normalize_canadian_postal_code(self.postal_code)
+        super().save(*args, **kwargs)
+
+    def clean(self) -> None:
+        if self.postal_code:
+            validate_canadian_postal_code(self.postal_code)
+            self.postal_code = normalize_canadian_postal_code(self.postal_code)
         super().clean()
