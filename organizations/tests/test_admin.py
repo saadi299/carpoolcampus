@@ -1,8 +1,14 @@
 import pytest
 from django.contrib import admin
 
-from organizations.admin import EmailDomainAdmin, EmailDomainInline, OrganizationAdmin
-from organizations.models import EmailDomain, Organization
+from organizations.admin import (
+    CampusAdmin,
+    CampusInline,
+    EmailDomainAdmin,
+    EmailDomainInline,
+    OrganizationAdmin,
+)
+from organizations.models import Campus, EmailDomain, Organization
 
 
 @pytest.mark.django_db
@@ -15,6 +21,12 @@ def test_organization_admin_registration():
 def test_email_domain_admin_registration():
     """Verify EmailDomain model is registered in admin site."""
     assert admin.site.is_registered(EmailDomain)
+
+
+@pytest.mark.django_db
+def test_campus_admin_registration():
+    """Verify Campus model is registered in admin site."""
+    assert admin.site.is_registered(Campus)
 
 
 @pytest.mark.django_db
@@ -31,10 +43,11 @@ def test_organization_admin_list_display():
 
 @pytest.mark.django_db
 def test_organization_admin_inlines():
-    """Verify EmailDomainInline is included in OrganizationAdmin."""
+    """Verify EmailDomainInline and CampusInline are included in OrganizationAdmin."""
     site = admin.AdminSite()
     org_admin = OrganizationAdmin(Organization, site)
     assert EmailDomainInline in org_admin.inlines
+    assert CampusInline in org_admin.inlines
 
 
 @pytest.mark.django_db
@@ -64,3 +77,26 @@ def test_email_domain_admin_search_and_filters():
     domain_admin = EmailDomainAdmin(EmailDomain, site)
     assert "domain" in domain_admin.search_fields
     assert "organization__is_active" in domain_admin.list_filter
+
+
+@pytest.mark.django_db
+def test_campus_admin_list_display():
+    """Verify CampusAdmin list_display configurations."""
+    site = admin.AdminSite()
+    campus_admin = CampusAdmin(Campus, site)
+    assert "name" in campus_admin.list_display
+    assert "organization" in campus_admin.list_display
+    assert "postal_code" in campus_admin.list_display
+    assert "lat" in campus_admin.list_display
+    assert "lng" in campus_admin.list_display
+
+
+@pytest.mark.django_db
+def test_campus_admin_search_and_filters():
+    """Verify CampusAdmin search fields and list filters."""
+    site = admin.AdminSite()
+    campus_admin = CampusAdmin(Campus, site)
+    assert "name" in campus_admin.search_fields
+    assert "postal_code" in campus_admin.search_fields
+    assert "organization" in campus_admin.list_filter
+    assert "organization__province" in campus_admin.list_filter

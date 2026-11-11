@@ -1,9 +1,11 @@
+from decimal import Decimal
+
 import pytest
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.db.models import QuerySet
 
-from organizations.models import EmailDomain, Organization, validate_domain
+from organizations.models import Campus, EmailDomain, Organization, validate_domain
 
 
 @pytest.mark.django_db
@@ -121,3 +123,114 @@ def test_email_domain_clean_validation() -> None:
 
     with pytest.raises(ValidationError):
         domain.full_clean()
+
+
+@pytest.mark.django_db
+def test_campus_creation_and_str() -> None:
+    org = Organization.objects.create(
+        code="uwaterloo", name="University of Waterloo", province="ON"
+    )
+    campus = Campus.objects.create(
+        organization=org,
+        name="Main Campus",
+        address="200 University Ave W",
+        postal_code="N2L 3G1",
+        lat=Decimal("43.472300"),
+        lng=Decimal("-80.544900"),
+    )
+
+    assert str(campus) == "Main Campus - University of Waterloo"
+    assert campus.organization == org
+    assert campus.created_at is not None
+    assert campus.lat == Decimal("43.472300")
+    assert campus.lng == Decimal("-80.544900")
+
+
+@pytest.mark.django_db
+def test_campus_postal_code_normalized_on_save() -> None:
+    org = Organization.objects.create(
+        code="uwaterloo", name="University of Waterloo", province="ON"
+    )
+    campus = Campus.objects.create(
+        organization=org,
+        name="Health Sciences Campus",
+        address="10 Victoria St S",
+        postal_code="n2g1c5",
+        lat=Decimal("43.450000"),
+        lng=Decimal("-80.490000"),
+    )
+
+    campus.refresh_from_db()
+    assert campus.postal_code == "N2G 1C5"
+
+
+@pytest.mark.django_db
+def test_campus_unique_together_organization_and_name() -> None:
+    org = Organization.objects.create(
+        code="uwaterloo", name="University of Waterloo", province="ON"
+    )
+    Campus.objects.create(
+        organization=org,
+        name="Main Campus",
+        address="200 University Ave W",
+        postal_code="N2L 3G1",
+        lat=Decimal("43.472300"),
+        lng=Decimal("-80.544900"),
+    )
+
+    with pytest.raises(IntegrityError):
+        Campus.objects.create(
+            organization=org,
+            name="Main Campus",
+            address="Different Address",
+            postal_code="N2L 3G1",
+            lat=Decimal("43.472300"),
+            lng=Decimal("-80.544900"),
+        )
+
+
+@pytest.mark.django_db
+def test_campus_same_name_different_organization_allowed() -> None:
+    org1 = Organization.objects.create(
+        code="uwaterloo", name="University of Waterloo", province="ON"
+    )
+    org2 = Organization.objects.create(code="utoronto", name="University of Toronto", province="ON")
+
+    campus1 = Campus.objects.create(
+        organization=org1,
+        name="Main Campus",
+        address="200 University Ave W",
+        postal_code="N2L 3G1",
+        lat=Decimal("43.472300"),
+        lng=Decimal("-80.544900"),
+    )
+    campus2 = Campus.objects.create(
+        organization=org2,
+        name="Main Campus",
+        address="27 King's College Cir",
+        postal_code="M5S 1A1",
+        lat=Decimal("43.662900"),
+        lng=Decimal("-79.395700"),
+    )
+
+    assert campus1.pk is not None
+    assert campus2.pk is not None
+    assert campus1.name == campus2.name
+
+
+@pytest.mark.django_db
+def test_campus_clean_validates_postal_code() -> None:
+    org = Organization.objects.create(
+        code="uwaterloo", name="University of Waterloo", province="ON"
+    )
+    campus = Campus(
+        organization=org,
+        name="Invalid Postal Campus",
+        address="123 Test St",
+        postal_code="INVALID",
+        lat=Decimal("43.472300"),
+        lng=Decimal("-80.544900"),
+    )
+
+    with pytest.raises(ValidationError):
+        campus.full_clean()
