@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
+from organizations.models import Organization
+
 
 @pytest.mark.django_db
 def test_seed_creates_admin_once(settings):
@@ -17,3 +19,16 @@ def test_seed_refuses_without_debug(settings):
     settings.DEBUG = False
     with pytest.raises(CommandError):
         call_command("seed")
+
+
+@pytest.mark.django_db
+def test_seed_canadian_universities_idempotent(settings):
+    settings.DEBUG = True
+    call_command("seed")
+    call_command("seed")
+
+    assert Organization.objects.count() == 11
+
+    ontario_tech = Organization.objects.get(code="ontariotech")
+    assert ontario_tech.campuses.count() == 2
+    assert ontario_tech.email_domains.filter(domain="ontariotechu.net").exists()
