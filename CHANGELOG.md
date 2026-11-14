@@ -4,6 +4,7 @@ All notable changes to this project. Newest first.
 
 ## 2026-11
 
+- 2026-11-13 · feat(organizations): seed institutions from canadian universities yaml (ROADMAP 2.4)
 - 2026-11-10 · feat(organizations): add campus model with postal code validation (ROADMAP 2.3)
 - 2026-11-08 · test(organizations): add edge case tests for organization_for_email
 - 2026-11-07 · feat(organizations): add email domain model and lookup service (ROADMAP 2.2)
