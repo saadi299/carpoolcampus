@@ -18,11 +18,11 @@ Organization ✅
   is_active       bool
   allow_cross_org bool (Phase 8)
 
-EmailDomain
+EmailDomain ✅
   organization    FK -> Organization
   domain          str, unique, lower-case   e.g. "mail.utoronto.ca"
 
-Campus
+Campus ✅
   organization    FK -> Organization
   name            str                  e.g. "Scarborough (UTSC)"
   address         str
@@ -46,6 +46,32 @@ Campus
 
 ## Reference data
 
-Real organizations, campuses, addresses, postal codes and email domains live in
-[`data/canadian_universities.yaml`](../../data/canadian_universities.yaml) and are
-loaded by `python manage.py seed`. Demo members are always fake.
+Real organizations, campuses, addresses, postal codes, and email domains live in
+[`data/canadian_universities.yaml`](../../data/canadian_universities.yaml).
+
+### File format
+
+The YAML file contains an `organizations` list where each entry defines:
+
+- `code` (string): Unique identifier slug (e.g., `"ontariotech"`, `"uoft"`).
+- `name` (string): Full institutional name.
+- `province` (string): Two-letter Canadian province/territory code (e.g., `"ON"`).
+- `domains` (list of strings): Email domain suffixes associated with the institution
+  (e.g., `["ontariotechu.net", "ontariotechu.ca"]`).
+- `campuses` (list of objects): Each campus specifies `name`, street `address`,
+  `postal_code`, and geographic coordinates `lat` and `lng` formatted as decimals.
+
+### Seeding process (`python manage.py seed`)
+
+The command `seed_canadian_universities` in `core/management/commands/seed.py` loads
+the YAML data using `yaml.safe_load`:
+
+1. Iterates over each organization in `data/canadian_universities.yaml`.
+2. Uses `Organization.objects.update_or_create(code=code, defaults={...})` to create or update
+   the organization record idempotently.
+3. Iterates over each domain in `domains`, normalizing to lower-case, and executes
+   `EmailDomain.objects.update_or_create(domain=domain, defaults={"organization": org})`.
+4. Iterates over each campus entry, parsing latitude and longitude into `Decimal` values, and executes
+   `Campus.objects.update_or_create(organization=org, name=campus_name, defaults={...})`.
+5. Safe to run multiple times: re-running `seed` updates existing rows without duplicate key errors
+   or redundant entries.
