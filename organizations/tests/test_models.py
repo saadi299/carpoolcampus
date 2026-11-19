@@ -108,6 +108,9 @@ def test_validate_domain_invalid_domains() -> None:
         "enddash-.ca",
         "invalid@char.ca",
         "space in.domain.ca",
+        ".startdot.ca",
+        "enddot.ca.",
+        "double..dot.ca",
     ]
     for domain in invalid_domains:
         with pytest.raises(ValidationError):
@@ -234,3 +237,20 @@ def test_campus_clean_validates_postal_code() -> None:
 
     with pytest.raises(ValidationError):
         campus.full_clean()
+
+
+@pytest.mark.django_db
+def test_campus_clean_valid_postal_code() -> None:
+    org = Organization.objects.create(
+        code="uwaterloo", name="University of Waterloo", province="ON"
+    )
+    campus = Campus(
+        organization=org,
+        name="Valid Postal Campus",
+        address="123 Test St",
+        postal_code="n2l 3g1",
+        lat=Decimal("43.472300"),
+        lng=Decimal("-80.544900"),
+    )
+    campus.full_clean()
+    assert campus.postal_code == "N2L 3G1"
