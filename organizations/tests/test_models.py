@@ -254,3 +254,46 @@ def test_campus_clean_valid_postal_code() -> None:
     )
     campus.full_clean()
     assert campus.postal_code == "N2L 3G1"
+
+
+@pytest.mark.django_db
+def test_campus_clean_normalizes_and_formats_various_valid_postal_codes() -> None:
+    org = Organization.objects.create(
+        code="uwaterloo", name="University of Waterloo", province="ON"
+    )
+    test_cases = [
+        ("n2l3g1", "N2L 3G1"),
+        ("N2L 3G1", "N2L 3G1"),
+        ("m5s 1a1", "M5S 1A1"),
+        ("k1p5h9", "K1P 5H9"),
+    ]
+    for raw, expected in test_cases:
+        campus = Campus(
+            organization=org,
+            name=f"Campus {raw}",
+            address="123 Street",
+            postal_code=raw,
+            lat=Decimal("43.472300"),
+            lng=Decimal("-80.544900"),
+        )
+        campus.clean()
+        assert campus.postal_code == expected
+
+
+@pytest.mark.django_db
+def test_campus_clean_raises_validation_error_on_invalid_formats() -> None:
+    org = Organization.objects.create(
+        code="uwaterloo", name="University of Waterloo", province="ON"
+    )
+    invalid_codes = ["123456", "N2L-3G1", "N2L 3G", "N2L3G11", "1A1 A1A", ""]
+    for code in invalid_codes:
+        campus = Campus(
+            organization=org,
+            name="Bad Postal Campus",
+            address="123 Street",
+            postal_code=code,
+            lat=Decimal("43.472300"),
+            lng=Decimal("-80.544900"),
+        )
+        with pytest.raises(ValidationError):
+            campus.full_clean()
