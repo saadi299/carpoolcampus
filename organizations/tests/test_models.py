@@ -101,6 +101,8 @@ def test_validate_domain_valid_domains() -> None:
 
 
 def test_validate_domain_invalid_domains() -> None:
+    too_long_label = "a" * 64 + ".ca"
+    too_long_domain = "a." * 126 + "ca"  # length > 253 characters
     invalid_domains = [
         "",
         "nodot",
@@ -111,6 +113,8 @@ def test_validate_domain_invalid_domains() -> None:
         ".startdot.ca",
         "enddot.ca.",
         "double..dot.ca",
+        too_long_label,
+        too_long_domain,
     ]
     for domain in invalid_domains:
         with pytest.raises(ValidationError):
@@ -235,8 +239,27 @@ def test_campus_clean_validates_postal_code() -> None:
         lng=Decimal("-80.544900"),
     )
 
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValidationError) as exc_info:
         campus.full_clean()
+    assert "postal_code" in exc_info.value.message_dict
+
+
+@pytest.mark.django_db
+def test_campus_clean_direct_call_raises_on_invalid_postal() -> None:
+    org = Organization.objects.create(
+        code="uwaterloo", name="University of Waterloo", province="ON"
+    )
+    campus = Campus(
+        organization=org,
+        name="Invalid Clean Campus",
+        address="123 Test St",
+        postal_code="BADCODE",
+        lat=Decimal("43.472300"),
+        lng=Decimal("-80.544900"),
+    )
+    with pytest.raises(ValidationError) as exc_info:
+        campus.clean()
+    assert "not a valid Canadian postal code" in str(exc_info.value)
 
 
 @pytest.mark.django_db
