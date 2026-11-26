@@ -4,6 +4,7 @@ All notable changes to this project. Newest first.
 
 ## 2026-11
 
+- 2026-11-26 · test(organizations): add campus clean validation and domain length tests
 - 2026-11-21 · refactor(core): small code improvement
 - 2026-11-19 · test(organizations): add tests for domain name validation function
 - 2026-11-13 · feat(organizations): seed institutions from canadian universities yaml (ROADMAP 2.4)
